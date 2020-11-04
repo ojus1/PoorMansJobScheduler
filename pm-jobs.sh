@@ -32,7 +32,8 @@ function pmrun(){
         fi
         folder=${PWD##*/};        
         ssh "$remote_user"@"$remote_host" "mkdir $remote_root/$folder";
-        rsync -a --max-size=192m ./ "$remote_user"@"$remote_host":"$remote_root"/$folder;
+        touch sync.ignore;
+        rsync -a --max-size=192m --exclude-from={'sync.ignore'} ./ "$remote_user"@"$remote_host":"$remote_root"/$folder;
     else
         if [[ -z "$remote_root" || -z $remote_host || -z $remote_user ]]
         then
@@ -41,7 +42,8 @@ function pmrun(){
             return ;
         fi
         folder=${PWD##*/};
-        err=$((rsync -a --max-size=192m ./ "$remote_user"@"$remote_host":"$remote_root"/$folder) 2>&1);
+        touch sync.ignore;
+        err=$((rsync -a --max-size=192m --exclude-from={'sync.ignore'} ./ "$remote_user"@"$remote_host":"$remote_root"/$folder) 2>&1);
         if [[ "$err" = "" ]]
         then 
             runoverssh -q $remote_user "cd $remote_root/$folder/ && nohup $option >> pmsrun.log 2>&1 &" $remote_host;
