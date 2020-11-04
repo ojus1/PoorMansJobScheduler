@@ -34,6 +34,7 @@
 - Run `pmrun init` to sync this directory with the server.
 - For running whatever command you would locally in the server with simply `pmrun "~/miniconda3/bin/python3 test.py"`.
 - Errors and anything printed (STDOUT and STDERR) will be redirected to `<projects_root>/<current_project>/pmsrun.log`
+- Add patterns or file/directory names to `.syncignore` to ignore those files/directories from syncing to the server.
 
 ## Author
 
